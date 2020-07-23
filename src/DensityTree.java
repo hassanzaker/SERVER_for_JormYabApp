@@ -19,7 +19,9 @@ public class DensityTree {
     Square square;
     int color;
     boolean isLeaf = false;
+    int level;
     int numberOfCrimes;
+    int totalCrimesWithWeight;
     DensityTree[][] children;
     ArrayList<Crime> crimes;
 
@@ -27,6 +29,7 @@ public class DensityTree {
         this.square = square;
         this.color = COLOR_NONE;
         this.numberOfCrimes = 0;
+        this.level = level;
         this.isLeaf = level == 0;
         if (!this.isLeaf){
             children = new DensityTree[segmentationSize][segmentationSize];
@@ -45,9 +48,9 @@ public class DensityTree {
             this.crimes.add(crime);
         }else {
             this.numberOfCrimes ++;
-            calculateColor();
+            this.totalCrimesWithWeight += crime.getCrimeType() == Crime.CRIME_TYPE_MURDER ? 2 : 1;
             findExactChild(crime.getCoordinates()).addCrime(crime);
-
+            calculateColor();
         }
     }
 
@@ -57,7 +60,8 @@ public class DensityTree {
     }
 
     private void calculateColor(){
-        /** should be calculate with a good function **/
+        int temp = this.totalCrimesWithWeight / (int) Math.pow(segmentationSize, level-1);
+        this.color = Math.min(temp, 4);
     }
 
 
