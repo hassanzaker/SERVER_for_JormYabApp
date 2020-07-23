@@ -6,8 +6,7 @@ public class Crime {
     public static final int CRIME_TYPE_MURDER = 3;
     public static  final int CRIME_TYPE_OTHER_VIOLATIONS = 4;
 
-    private double longitude;
-    private double latitude;
+    private Point coordinates;
     private int CrimeType;
     private int id; /*** id of person whom reported this crime ***/
     private Date timeOfCrime;
@@ -15,9 +14,8 @@ public class Crime {
     /*** maybe pictureOfCrime and other properties ***/
 
 
-    public Crime(double longitude, double latitude, int crimeType, int id, Date timeOfCrime) {
-        this.longitude = longitude;
-        this.latitude = latitude;
+    public Crime(Point coordinates, int crimeType, int id, Date timeOfCrime) {
+        this.coordinates = coordinates;
         CrimeType = crimeType;
         this.id = id;
         this.timeOfCrime = timeOfCrime;
@@ -40,20 +38,12 @@ public class Crime {
         return CRIME_TYPE_OTHER_VIOLATIONS;
     }
 
-    public double getLongitude() {
-        return longitude;
+    public Point getCoordinates() {
+        return coordinates;
     }
 
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
-
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
+    public void setCoordinates(Point coordinates) {
+        this.coordinates = coordinates;
     }
 
     public int getCrimeType() {
