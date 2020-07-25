@@ -38,10 +38,13 @@ public class Square {
     }
 
     public int[] findExactSquare(Point point){
-        int[] temp = new int[2];
-        temp[0] = (int)((point.getLongitude() - left) / this.length);
-        temp[1] = (int)((point.getLongitude() - this.top) / this.width);
-        return temp;
+        if (point.getLongitude() >= this.left && point.getLatitude() >= this.down && point.getLongitude() <= this.right && point.getLatitude() <= this.top) {
+            int[] temp = new int[2];
+            temp[0] = (int) ((point.getLongitude() - left) / this.length);
+            temp[1] = (int) ((point.getLatitude() - this.top) / this.width);
+            return temp;
+        }
+        return null;
     }
 
     @Override

@@ -17,17 +17,22 @@ public class Server {
         switch (subs[1]){
             case "1":
                 formatter.format("1=" +densityTree.toClientStringOuter() + "\n");
-                System.out.println("1=" +densityTree.toClientStringOuter() + "\n");
+//                System.out.println("1=" +densityTree.toClientStringOuter() + "\n");
                 break;
             case "2":
                 formatter.format("2=" + densityTree.toClientStringInner());
-                System.out.println("2=" + densityTree.toClientStringInner());
+//                System.out.println("2=" + densityTree.toClientStringInner());
                 break;
             case "3":
-                formatter.format("3=" + densityTree.findExactChild(center).toClientStringInner());
+                DensityTree temp = densityTree.findExactChild(center);
+                if (temp == null)
+                    formatter.format("2=" + densityTree.toClientStringInner());
+                else
+                    formatter.format("3=" + temp.toClientStringInner());
                 break;
             case "4":
                 formatter.format("4=" + densityTree.findExactChild(center).findExactChild(center).toClientStringInner());
+//                System.out.println("4=" + densityTree.findExactChild(center).findExactChild(center).toClientStringInner());
                 break;
 
             default:
@@ -42,6 +47,11 @@ public class Server {
                 new Point(51.601581, 35.570983));
         DensityTree crimeTree = new DensityTree(tehran, 2);
         preProcess(crimeTree);
+
+//        Point center = new Point(51.405168771743774 ,35.702853049009626);
+//        crimeTree.findExactChild(center);
+
+//        System.out.println("4=" + crimeTree.findExactChild(center).findExactChild(center).toClientStringInner());
 
 
         ServerSocket serverSocket = null;

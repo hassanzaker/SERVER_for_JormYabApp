@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 
 public class DensityTree {
-    public static final int segmentationSize = 3;
+    public static final int segmentationSize = 4;
 
     public static final int COLOR_NONE = 0;
     public static final int COLOR_YELLOW = 1;
@@ -53,7 +53,9 @@ public class DensityTree {
 
     public DensityTree findExactChild(Point point) {
         int[] exactChild = this.square.findExactSquare(point);
-        return this.children[exactChild[0]][exactChild[1]];
+        if (exactChild != null)
+            return this.children[exactChild[0]][exactChild[1]];
+        return null;
     }
 
     private void calculateColor() {
@@ -81,7 +83,7 @@ public class DensityTree {
 
     public String toClientStringInner() {
         String s = "";
-        if (level > 1) {
+        if (level > 0) {
             for (int i = 0; i < segmentationSize; i++) {
                 for (int j = 0; j < segmentationSize; j++) {
                     s += children[i][j].toClientStringOuter() + ",";
