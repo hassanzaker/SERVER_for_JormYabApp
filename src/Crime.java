@@ -7,7 +7,7 @@ public class Crime {
     public static  final int CRIME_TYPE_OTHER_VIOLATIONS = 4;
 
     private Point coordinates;
-    private int CrimeType;
+    private int crimeType;
     private int id; /*** id of person whom reported this crime ***/
     private Date timeOfCrime;
 
@@ -16,9 +16,25 @@ public class Crime {
 
     public Crime(Point coordinates, int crimeType, int id, Date timeOfCrime) {
         this.coordinates = coordinates;
-        CrimeType = crimeType;
+        this.crimeType = crimeType;
         this.id = id;
         this.timeOfCrime = timeOfCrime;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Crime{" +
+                "coordinates=" + coordinates +
+                ", CrimeType=" + crimeType +
+                ", id=" + id +
+                ", timeOfCrime=" + timeOfCrime +
+                '}';
+    }
+
+
+    public String toClientString(){
+        return coordinates.toClientString() + "c" + String.valueOf(this.crimeType);
     }
 
 
@@ -47,11 +63,11 @@ public class Crime {
     }
 
     public int getCrimeType() {
-        return CrimeType;
+        return crimeType;
     }
 
     public void setCrimeType(int crimeType) {
-        CrimeType = crimeType;
+        this.crimeType = crimeType;
     }
 
     public int getId() {

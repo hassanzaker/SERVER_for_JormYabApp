@@ -43,4 +43,25 @@ public class Square {
         temp[1] = (int)((point.getLongitude() - this.top) / this.width);
         return temp;
     }
+
+    @Override
+    public String toString() {
+        return "Square{" +
+                "leftTop=" + leftTop +
+                ", rightTop=" + rightTop +
+                ", leftDown=" + leftDown +
+                ", rightDown=" + rightDown +
+                ", left=" + left +
+                ", right=" + right +
+                ", top=" + top +
+                ", down=" + down +
+                ", length=" + length +
+                ", width=" + width +
+                '}';
+    }
+
+
+    public String toClientString(){
+        return leftTop.toClientString() + "-" + rightTop.toClientString() + "-" + rightDown.toClientString() + "-" + leftDown.toClientString();
+    }
 }

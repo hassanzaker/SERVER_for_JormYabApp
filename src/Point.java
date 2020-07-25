@@ -23,4 +23,16 @@ public class Point {
     public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
+
+    @Override
+    public String toString() {
+        return "Point{" +
+                "longitude=" + longitude +
+                ", latitude=" + latitude +
+                '}';
+    }
+
+    public String toClientString(){
+        return String.valueOf(longitude)+ " " + String.valueOf(latitude);
+    }
 }
