@@ -10,30 +10,28 @@ import java.util.Scanner;
 public class Server {
 
 
-    static  void addToTreeFromDataBase(DensityTree densityTree, DataBaseConnectionHandler dbch){
+    static void addToTreeFromDataBase(DensityTree densityTree, DataBaseConnectionHandler dbch) {
         ArrayList<Crime> crimes = new ArrayList<>();
         crimes = dbch.createConnection();
-        for (int i = 0 ; i < crimes.size(); i++){
+        for (int i = 0; i < crimes.size(); i++) {
             densityTree.addCrime(crimes.get(i));
 //            System.out.println(crimes.get(i));
         }
 
     }
 
-    static void preProcess(DensityTree densityTree, DataBaseConnectionHandler dbch){
+    static void preProcess(DensityTree densityTree, DataBaseConnectionHandler dbch) {
         /** crimes should be load from file and add to densityTrr here **/
 
         addToTreeFromDataBase(densityTree, dbch);
-        }
-
-
     }
 
-    static void mapDataConnection(DensityTree densityTree, Formatter formatter, Scanner scanner, String[] subs){
+
+    static void mapDataConnection(DensityTree densityTree, Formatter formatter, Scanner scanner, String[] subs) {
         Point center = new Point(Double.parseDouble(subs[2]), Double.parseDouble(subs[3]));
-        switch (subs[1]){
+        switch (subs[1]) {
             case "1":
-                formatter.format("1=" +densityTree.toClientStringOuter() + "\n");
+                formatter.format("1=" + densityTree.toClientStringOuter() + "\n");
 //                System.out.println("1=" +densityTree.toClientStringOuter() + "\n");
                 break;
             case "2":
@@ -50,13 +48,13 @@ public class Server {
             case "4":
                 DensityTree temp1 = densityTree.findExactChild(center);
                 DensityTree temp2;
-                if (temp1 != null){
+                if (temp1 != null) {
                     temp2 = temp1.findExactChild(center);
                     if (temp2 == null)
                         formatter.format("3=" + temp1.toClientStringInner());
                     else
                         formatter.format("4=" + densityTree.findExactChild(center).findExactChild(center).toClientStringInner());
-                }else {
+                } else {
                     formatter.format("2=" + densityTree.toClientStringInner());
                 }
 
@@ -76,7 +74,7 @@ public class Server {
                 new Point(51.601581, 35.570983));
         DensityTree crimeTree = new DensityTree(tehran, 2);
         DataBaseConnectionHandler dbch = new DataBaseConnectionHandler();
-        preProcess(crimeTree,dbch);
+        preProcess(crimeTree, dbch);
 
 //        Point center = new Point(51.405168771743774 ,35.702853049009626);
 //        crimeTree.findExactChild(center);
@@ -105,7 +103,7 @@ public class Server {
                 System.out.println(s);
                 /** s is for service type that client ask server **/
 
-                switch (subs[0]){
+                switch (subs[0]) {
                     case "map":
                         mapDataConnection(crimeTree, formatter, read, subs);
                 }
