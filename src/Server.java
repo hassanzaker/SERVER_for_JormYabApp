@@ -9,14 +9,21 @@ import java.util.Scanner;
 
 public class Server {
 
-    static void preProcess(DensityTree densityTree, DataBaseConnectionHandler dbch){
-        /** crimes should be load from file and add to densityTrr here **/
 
+    static  void addToTreeFromDataBase(DensityTree densityTree, DataBaseConnectionHandler dbch){
         ArrayList<Crime> crimes = new ArrayList<>();
         crimes = dbch.createConnection();
         for (int i = 0 ; i < crimes.size(); i++){
             densityTree.addCrime(crimes.get(i));
-            System.out.println(crimes.get(i));
+//            System.out.println(crimes.get(i));
+        }
+
+    }
+
+    static void preProcess(DensityTree densityTree, DataBaseConnectionHandler dbch){
+        /** crimes should be load from file and add to densityTrr here **/
+
+        addToTreeFromDataBase(densityTree, dbch);
         }
 
 
@@ -102,7 +109,7 @@ public class Server {
                     case "map":
                         mapDataConnection(crimeTree, formatter, read, subs);
                 }
-
+                addToTreeFromDataBase(crimeTree, dbch);
             } catch (IOException e) {
 
             }
