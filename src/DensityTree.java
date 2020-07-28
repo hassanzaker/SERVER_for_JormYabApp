@@ -42,6 +42,8 @@ public class DensityTree {
         if (isLeaf) {
             this.crimes.add(crime);
         } else {
+            if (findExactChild(crime.getCoordinates()) == null)
+                return;
             this.numberOfCrimes++;
             this.totalCrimesWithWeight += crime.getCrimeType() == Crime.CRIME_TYPE_MURDER ? 2 : 1;
             findExactChild(crime.getCoordinates()).addCrime(crime);

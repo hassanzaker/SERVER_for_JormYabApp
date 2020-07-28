@@ -9,8 +9,17 @@ import java.util.Scanner;
 
 public class Server {
 
-    static void preProcess(DensityTree densityTree){
+    static void preProcess(DensityTree densityTree, DataBaseConnectionHandler dbch){
         /** crimes should be load from file and add to densityTrr here **/
+
+        ArrayList<Crime> crimes = new ArrayList<>();
+        crimes = dbch.createConnection();
+        for (int i = 0 ; i < crimes.size(); i++){
+            densityTree.addCrime(crimes.get(i));
+            System.out.println(crimes.get(i));
+        }
+
+
     }
 
     static void mapDataConnection(DensityTree densityTree, Formatter formatter, Scanner scanner, String[] subs){
@@ -32,7 +41,19 @@ public class Server {
                     formatter.format("3=" + temp.toClientStringInner());
                 break;
             case "4":
-                formatter.format("4=" + densityTree.findExactChild(center).findExactChild(center).toClientStringInner());
+                DensityTree temp1 = densityTree.findExactChild(center);
+                DensityTree temp2;
+                if (temp1 != null){
+                    temp2 = temp1.findExactChild(center);
+                    if (temp2 == null)
+                        formatter.format("3=" + temp1.toClientStringInner());
+                    else
+                        formatter.format("4=" + densityTree.findExactChild(center).findExactChild(center).toClientStringInner());
+                }else {
+                    formatter.format("2=" + densityTree.toClientStringInner());
+                }
+
+//                formatter.format("4=" + densityTree.findExactChild(center).findExactChild(center).toClientStringInner());
 //                System.out.println("4=" + densityTree.findExactChild(center).findExactChild(center).toClientStringInner());
                 break;
 
@@ -47,51 +68,44 @@ public class Server {
                 new Point(51.210794, 35.570983),
                 new Point(51.601581, 35.570983));
         DensityTree crimeTree = new DensityTree(tehran, 2);
-        preProcess(crimeTree);
         DataBaseConnectionHandler dbch = new DataBaseConnectionHandler();
-        ArrayList<Crime> crimes = new ArrayList<>();
-        crimes = dbch.createConnection();
-        for (int i = 0 ; i < crimes.size(); i++){
-               System.out.println(crimes.get(i).getCoordinates().getLatitude());
-               System.out.println(crimes.get(i).getCoordinates().getLongitude());
-               System.out.println(crimes.get(i).getCrimeType());
-            System.out.println(crimes.get(i).getTimeOfCrime());
+        preProcess(crimeTree,dbch);
 
-           }
 //        Point center = new Point(51.405168771743774 ,35.702853049009626);
 //        crimeTree.findExactChild(center);
 
 //        System.out.println("4=" + crimeTree.findExactChild(center).findExactChild(center).toClientStringInner());
 
 
-//        ServerSocket serverSocket = null;
-//        try {
-//            serverSocket = new ServerSocket(7800);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        while (true) {
-//            try {
-//                Socket socket = serverSocket.accept();
-//                System.out.println("connected!");
-//                InputStream inputStream = socket.getInputStream();
-//                OutputStream outputStream = socket.getOutputStream();
-//                Formatter formatter = new Formatter(outputStream);
-//                Scanner read = new Scanner(inputStream);
-//
-//                String s = read.nextLine();
-//                String[] subs = s.split(" ");
-//                System.out.println(s);
-//                /** s is for service type that client ask server **/
-//
-//                switch (subs[0]){
-//                    case "map":
-//                        mapDataConnection(crimeTree, formatter, read, subs);
-//                }
-//
-//            } catch (IOException e) {
-//
-//            }
-//        }
+        System.out.println(crimeTree);
+        ServerSocket serverSocket = null;
+        try {
+            serverSocket = new ServerSocket(7800);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        while (true) {
+            try {
+                Socket socket = serverSocket.accept();
+                System.out.println("connected!");
+                InputStream inputStream = socket.getInputStream();
+                OutputStream outputStream = socket.getOutputStream();
+                Formatter formatter = new Formatter(outputStream);
+                Scanner read = new Scanner(inputStream);
+
+                String s = read.nextLine();
+                String[] subs = s.split(" ");
+                System.out.println(s);
+                /** s is for service type that client ask server **/
+
+                switch (subs[0]){
+                    case "map":
+                        mapDataConnection(crimeTree, formatter, read, subs);
+                }
+
+            } catch (IOException e) {
+
+            }
+        }
     }
 }
