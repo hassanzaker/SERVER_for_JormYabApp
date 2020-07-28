@@ -23,6 +23,7 @@ public class DensityTree {
     DensityTree(Square square, int level) {
         this.square = square;
         this.color = COLOR_NONE;
+        this.totalCrimesWithWeight = 0;
         this.numberOfCrimes = 0;
         this.level = level;
         this.isLeaf = level == 0;
@@ -40,7 +41,10 @@ public class DensityTree {
 
     public void addCrime(Crime crime) {
         if (isLeaf) {
+            this.numberOfCrimes++;
+            this.totalCrimesWithWeight += crime.getCrimeType() == Crime.CRIME_TYPE_MURDER ? 2 : 1;
             this.crimes.add(crime);
+            calculateColor();
         } else {
             if (findExactChild(crime.getCoordinates()) == null)
                 return;
@@ -59,7 +63,8 @@ public class DensityTree {
     }
 
     private void calculateColor() {
-        int temp = this.totalCrimesWithWeight / (int) Math.pow(segmentationSize, level - 1);
+        int temp = this.totalCrimesWithWeight / (int) Math.pow(20, level);
+//        System.out.println(Math.pow(segmentationSize, level));
         this.color = Math.min(temp, 4);
     }
 

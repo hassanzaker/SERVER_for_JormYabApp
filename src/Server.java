@@ -75,7 +75,7 @@ public class Server {
         DensityTree crimeTree = new DensityTree(tehran, 2);
         DataBaseConnectionHandler dbch = new DataBaseConnectionHandler();
         preProcess(crimeTree, dbch);
-
+//        System.out.println(crimeTree.color);
 //        Point center = new Point(51.405168771743774 ,35.702853049009626);
 //        crimeTree.findExactChild(center);
 
