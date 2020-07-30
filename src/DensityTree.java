@@ -62,6 +62,21 @@ public class DensityTree {
         return null;
     }
 
+    public int isSafe(Point point){
+        DensityTree child1 = findExactChild(point);
+        if (child1 == null)
+            return 0;
+        else {
+            child1 = child1.findExactChild(point);
+            if (child1.color >= 3){
+                return 1;
+            }else
+                return 0;
+        }
+
+    }
+
+
     private void calculateColor() {
         int temp = this.totalCrimesWithWeight / (int) Math.pow(20, level);
 //        System.out.println(Math.pow(segmentationSize, level));

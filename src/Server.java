@@ -27,7 +27,7 @@ public class Server {
     }
 
 
-    static void mapDataConnection(DensityTree densityTree, Formatter formatter, Scanner scanner, String[] subs) {
+    static void mapDataConnection(DensityTree densityTree, Formatter formatter, String[] subs) {
         Point center = new Point(Double.parseDouble(subs[2]), Double.parseDouble(subs[3]));
         switch (subs[1]) {
             case "1":
@@ -65,6 +65,15 @@ public class Server {
             default:
         }
         formatter.flush();
+    }
+
+    static void isSafeLocation(DensityTree densityTree, Formatter formatter, String[] subs){
+        Point point = new Point(Double.parseDouble(subs[1]), Double.parseDouble(subs[2]));
+        int response = densityTree.isSafe(point);
+        System.out.println(response);
+        formatter.format(String.valueOf(response) + "\n");
+        formatter.flush();
+
     }
 
     public static void main(String[] args) {
@@ -105,7 +114,10 @@ public class Server {
 
                 switch (subs[0]) {
                     case "map":
-                        mapDataConnection(crimeTree, formatter, read, subs);
+                        mapDataConnection(crimeTree, formatter, subs);
+                        break;
+                    case "location":
+                        isSafeLocation(crimeTree, formatter, subs);
                 }
                 addToTreeFromDataBase(crimeTree, dbch);
             } catch (IOException e) {
